@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 6666;
 
 app.use(bodyParser.json());
 
-app.use(express.static('APP'));
+app.use(express.static('librerias'));
 
 var path = __dirname + '/';
 var pathLibrerias = __dirname + '/librerias/';
@@ -36,7 +36,7 @@ app.get("/",function(req,res){
 }); 
 
 app.get("/funciones", (req,res)=>{
-  res.sendFile(pathlibrerias + 'funciones.js');
+  res.sendFile(pathLibrerias + 'funciones.js');
 });
 
 app.use("/",router);
