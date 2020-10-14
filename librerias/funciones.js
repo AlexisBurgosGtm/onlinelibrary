@@ -68,6 +68,27 @@ let funciones = {
     })
     //INSTALACION APP
     },
+    instalationHandlers2: (idContainer,idBtnInstall)=>{
+      //INSTALACION APP
+      let btnInstalarApp = document.getElementById(idBtnInstall);
+      btnInstalarApp.hidden = true;
+
+      let container = document.getElementById(idContainer);
+
+      let capturedInstallEvent;
+      window.addEventListener('beforeinstallprompt',(e)=>{
+        e.preventDefault();
+        container.hidden = false;
+        capturedInstallEvent = e;
+      });
+      btnInstalarApp.addEventListener('click',(e)=>{
+        capturedInstallEvent.prompt();
+        capturedInstallEvent.userChoice.then((choice)=>{
+          //solicita al usuario confirmacion para instalar
+        })
+      })
+      //INSTALACION APP
+    },
     Confirmacion: function(msn){
         return swal({
             title: 'Confirme',
