@@ -30,9 +30,45 @@ router.use(function (req,res,next) {
   next();
 });
 
+
+async function GetDataNit(nit){
+   
+    let url = 'https://free.feel.com.gt/api/v1/obtener_contribuyente';
+    
+    axios.post(url,{nit: nit})
+    .then((response) => {
+        let json = response.data;
+        let respuesta = `${json.descripcion},${json.direcciones.direccion}`;        
+        return respuesta;
+ 
+    }, (error) => {
+        console.log(error);
+        return "error";
+    });
+};
+
 app.get("/",function(req,res){
   res.send('Hola Alexis Burgos');  
 	//res.sendFile(path + 'index.html');
+}); 
+
+app.get("/datosnit",async function(req,res){
+  
+  let nit = req.query.nit;
+  
+  let url = 'https://free.feel.com.gt/api/v1/obtener_contribuyente';
+    
+    axios.post(url,{nit: nit})
+    .then((response) => {
+        let json = response.data;
+        let respuesta = `${json.descripcion},${json.direcciones.direccion}`;        
+        return respuesta;
+ 
+    }, (error) => {
+        console.log(error);
+        return "error";
+    });
+
 }); 
 
 app.get("/funciones", (req,res)=>{
