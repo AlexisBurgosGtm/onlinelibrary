@@ -2,11 +2,12 @@ var express = require("express");
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
+var axios = require('axios');
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-const PORT = process.env.PORT || 6666;
+const PORT = process.env.PORT || 3300;
 
 app.use(bodyParser.json());
 
@@ -31,20 +32,25 @@ router.use(function (req,res,next) {
 });
 
 
-async function GetDataNit(nit){
+function GetDataNit(nit){
    
     let url = 'https://free.feel.com.gt/api/v1/obtener_contribuyente';
     
-    axios.post(url,{nit: nit})
-    .then((response) => {
-        let json = response.data;
-        let respuesta = `${json.descripcion},${json.direcciones.direccion}`;        
-        return respuesta;
- 
-    }, (error) => {
-        console.log(error);
-        return "error";
+    return new Promise((resolve,reject)=>{
+        axios.post(url,{nit: nit})
+        .then((response) => {
+            let json = response.data;
+            let respuesta = `${json.descripcion},${json.direcciones.direccion}`;        
+            resolve(respuesta);
+    
+        }, (error) => {
+            console.log(error);
+            reject("error");
+        });
+        
     });
+
+    
 };
 
 app.get("/",function(req,res){
@@ -52,23 +58,32 @@ app.get("/",function(req,res){
 	//res.sendFile(path + 'index.html');
 }); 
 
-app.get("/datosnit",async function(req,res){
-  
-  let nit = req.query.nit;
-  
-  let url = 'https://free.feel.com.gt/api/v1/obtener_contribuyente';
+
+app.get("/datosnit", function(req,res){
     
-    axios.post(url,{nit: nit})
+    let nit = req.query.nit;
+    console.log(nit);
+    
+    let url = 'https://free.feel.com.gt/api/v1/obtener_contribuyente';
+try {
+  axios.post(url,{nit: nit})
     .then((response) => {
         let json = response.data;
-        let respuesta = `${json.descripcion},${json.direcciones.direccion}`;        
-        return respuesta;
- 
+        if(json.respuesta=true){
+          let respuesta =  `${json.descripcion};${json.direcciones.direccion}`;        
+          res.send(respuesta);
+        }else{
+          res.send('error');
+        };
     }, (error) => {
         console.log(error);
-        return "error";
+        res.send("error");
     });
-
+} catch (error) {
+  res.send('error');
+}
+    
+ 
 }); 
 
 app.get("/funciones", (req,res)=>{
