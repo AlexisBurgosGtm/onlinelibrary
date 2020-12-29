@@ -70,7 +70,7 @@ try {
     .then((response) => {
         let json = response.data;
         if(json.respuesta=true){
-          let respuesta =  `${json.descripcion};${json.direcciones.direccion}`;        
+          let respuesta =  `${json.descripcion};${json.direcciones.direccion};`;        
           res.send(respuesta);
         }else{
           res.send('error');
