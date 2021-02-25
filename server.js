@@ -90,6 +90,24 @@ app.get("/funciones", (req,res)=>{
   res.sendFile(pathLibrerias + 'funciones.js');
 });
 
+app.get('/verificarfel',(req,res)=>{
+  
+  let token = req.query.token;
+  
+  res.send('no');
+
+})
+
+
+app.get('/verificartoken',(req,res)=>{
+  
+  let token = req.query.token;
+  
+  res.send('no');
+
+})
+
+
 app.use("/",router);
 
 app.use("*",function(req,res){
