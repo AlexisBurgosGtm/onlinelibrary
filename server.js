@@ -103,14 +103,12 @@ app.get('/verificartoken',(req,res)=>{
   
   let token = req.query.token;
   
-  /**
-   * if(token=='FJOYABAJ'){
+  
+  if(token=='FERREGUEVARA'){
     res.send('si');
   }else{
     res.send('no');
   };
-   * 
-   */
   
   
   res.send('no');
