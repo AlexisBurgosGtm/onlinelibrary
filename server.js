@@ -103,13 +103,13 @@ app.get('/verificartoken',(req,res)=>{
   
   let token = req.query.token;
   
-  
+  /*
   if(token=='FERREGUEVARA'){
     res.send('si');
   }else{
     res.send('no');
   };
-  
+  */
   
   res.send('no');
 
